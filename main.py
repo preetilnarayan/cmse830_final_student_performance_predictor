@@ -402,16 +402,15 @@ if 'selected_dataset' not in st.session_state:
 # Sidebar
 with st.sidebar:
     st.image("https://img.icons8.com/fluency/96/000000/student-center.png", width=80)
-    st.title("🎓 Navigation")
     
     page = st.radio(
         "Select Section:",
-        ["🏠 Home", "📊 Product Overview", "🔬 Data Science Analysis", "🎯 Model Prediction", "📈 Evaluation Metrics"],
+        ["Home", "Product Overview", "Data Analysis", "Model Prediction", "Evaluation Metrics"],
         label_visibility="collapsed"
     )
-    
+
     st.markdown("---")
-    st.markdown("### 📊 Dataset Selection")
+    st.markdown("### Dataset Selection")
     dataset_choice = st.selectbox(
         "Choose Dataset:",
         ["Dataset 1: UCI Math Performance", 
@@ -422,7 +421,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### About")
     st.info("""
-    This app predicts student pass/fail outcomes using machine learning.
+    This app predicts student pass/fail outcomes using ML Techniques.
     
     **Features:**
     - 3 Different datasets
@@ -449,10 +448,10 @@ else:
     dataset_source = "UCI ML Repository (Combined)"
 
 # Main content
-if page == "🏠 Home":
+if page == "Home":
     st.markdown('<h1 class="main-header">🎓 Student Performance Prediction System</h1>', unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([1, 10, 1])
     with col2:
         st.markdown("""
         <div class="success-box">
@@ -466,7 +465,7 @@ if page == "🏠 Home":
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("### 📊 Multiple Datasets")
+        st.markdown("### Datasets")
         st.write("""
         - **Dataset 1**: Study hours and attendance patterns
         - **Dataset 2**: Demographics and behavioral factors
@@ -474,7 +473,7 @@ if page == "🏠 Home":
         """)
     
     with col2:
-        st.markdown("### 🤖 ML Models")
+        st.markdown("### ML Models")
         st.write("""
         - Linear Regression
         - PCA + Linear Regression
@@ -482,7 +481,7 @@ if page == "🏠 Home":
         - Dimensionality reduction analysis
         """)
     with col3:
-        st.markdown("### 📈 Analytics")
+        st.markdown("### Analytics")
         st.write("""
         - Feature importance analysis
         - Interactive visualizations
@@ -492,21 +491,21 @@ if page == "🏠 Home":
     
     st.markdown("---")
     
-    st.markdown("### 🚀 Quick Start Guide")
+    st.markdown("### User Walkthrough")
     st.markdown("""
     1. **Select a Dataset** from the sidebar
     2. **Navigate** to different sections using the menu
     3. **Explore** the data in Product Overview
-    4. **Analyze** features in Data Science Analysis
+    4. **Analyze** features in Data Analysis
     5. **Make Predictions** in Model Prediction
     6. **Review Metrics** in Evaluation Metrics
     """)
 
-elif page == "📊 Product Overview":
-    st.markdown(f'<h1 class="main-header">📊 Product Overview: {dataset_name}</h1>', unsafe_allow_html=True)
+elif page == "Product Overview":
+    st.markdown(f'<h1 class="main-header">Product Overview: {dataset_name}</h1>', unsafe_allow_html=True)
     
     # Problem Definition
-    st.markdown("### 🎯 Problem Statement")
+    st.markdown("### Problem Statement")
     st.markdown("""
     <div class="warning-box">
     <strong>Business Problem:</strong> Educational institutions need to identify at-risk students early to provide timely interventions and improve overall student success rates.
@@ -520,7 +519,7 @@ elif page == "📊 Product Overview":
     st.markdown("---")
     
     # Dataset Overview
-    st.markdown("### 📋 Dataset Overview")
+    st.markdown("### Dataset Overview")
     
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
@@ -537,18 +536,18 @@ elif page == "📊 Product Overview":
         st.metric("Missing Values", missing_count)
     
     # Data source information
-    st.info(f"**📚 Data Source:** {dataset_source} | **Dataset:** {dataset_name}")
+    st.info(f"**Data Source:** {dataset_source} | **Dataset:** {dataset_name}")
     
     st.markdown("---")
     
     # Display dataset
-    st.markdown("### 📊 Sample Data")
+    st.markdown("### Sample Data")
     st.dataframe(df.head(10), use_container_width=True)
     
     # Download button
     csv = df.to_csv(index=False)
     st.download_button(
-        label="📥 Download Full Dataset",
+        label="Download Dataset",
         data=csv,
         file_name=f"{dataset_name.replace(' ', '_')}.csv",
         mime="text/csv"
@@ -557,13 +556,13 @@ elif page == "📊 Product Overview":
     st.markdown("---")
     
     # Basic Statistics
-    st.markdown("### 📈 Statistical Summary")
+    st.markdown("### Statistical Summary")
     st.dataframe(df.describe(), use_container_width=True)
     
     # Class Distribution
-    st.markdown("### 🎯 Target Variable Distribution")
+    st.markdown("### Target Variable Distribution")
     
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(6, 6))
     result_counts = df['result'].value_counts()
     colors = ['#28a745' if x == 'Pass' else '#dc3545' for x in result_counts.index]
     
@@ -579,13 +578,13 @@ elif page == "📊 Product Overview":
     st.pyplot(fig)
     plt.close()
 
-elif page == "🔬 Data Science Analysis":
-    st.markdown(f'<h1 class="main-header">🔬 Data Science Analysis: {dataset_name}</h1>', unsafe_allow_html=True)
+elif page == "Data Analysis":
+    st.markdown(f'<h1 class="main-header">Data Analysis: {dataset_name}</h1>', unsafe_allow_html=True)
     
     # Data Processing
-    with st.expander("🔧 Data Processing & Cleaning", expanded=True):
+    with st.expander("Data Processing & Cleaning", expanded=True):
         # Show missing values BEFORE cleaning
-        st.markdown("#### 📊 Missing Values Analysis (Before Cleaning)")
+        st.markdown("#### Missing Values Analysis (Before Cleaning)")
         missing_before = df.isnull().sum()
         missing_percent_before = (missing_before / len(df) * 100).round(2)
         
@@ -624,13 +623,13 @@ elif page == "🔬 Data Science Analysis":
         
         st.markdown("""
         **Data Cleaning Steps Applied:**
-        1. ✅ **Missing Value Detection**: Identified columns with missing data
-        2. ✅ **Imputation Strategy**: 
+        1. **Missing Value Detection**: Identified columns with missing data
+        2. **Imputation Strategy**: 
            - Numeric columns: Filled with **median** (robust to outliers)
            - Categorical columns: Filled with **mode** (most frequent value)
-        3. ✅ **Categorical Encoding**: Used Label Encoding for categorical variables
-        4. ✅ **Feature Scaling**: Applied StandardScaler for model training
-        5. ✅ **Train-Test Split**: 80% training, 20% testing with stratification
+        3. **Categorical Encoding**: Used Label Encoding for categorical variables
+        4. **Feature Scaling**: Applied StandardScaler for model training
+        5. **Train-Test Split**: 80% training, 20% testing with stratification
         
         **Why Median over Mean?**
         - Median is less affected by extreme outliers
@@ -639,7 +638,7 @@ elif page == "🔬 Data Science Analysis":
         """)
         
         # Show data AFTER cleaning
-        st.markdown("#### ✨ Data After Cleaning")
+        st.markdown("####Data After Cleaning")
         df_display = df.copy()
         
         # Apply same cleaning for display
@@ -654,11 +653,11 @@ elif page == "🔬 Data Science Analysis":
                 df_display[col].fillna(df_display[col].mode()[0], inplace=True)
         
         st.dataframe(df_display.head(10), use_container_width=True)
-        st.success(f"✅ All {len(df)} records cleaned and ready for analysis!")
+        st.success(f"All {len(df)} records cleaned and ready for analysis!")
     
     # Feature Analysis
     st.markdown("---")
-    st.markdown("### 📊 Feature Analysis")
+    st.markdown("### Feature Analysis")
     
     # Correlation heatmap
     numeric_df = df.copy()
@@ -675,7 +674,7 @@ elif page == "🔬 Data Science Analysis":
     st.markdown("---")
     
     # Distribution plots
-    st.markdown("### 📊 Feature Distributions")
+    st.markdown("### Feature Distributions")
     
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     
@@ -709,8 +708,10 @@ elif page == "🔬 Data Science Analysis":
     st.pyplot(fig)
     plt.close()
     
+    st.markdown("---")
+    
     # Box plots
-    st.markdown("### 📦 Feature Comparison (Pass vs Fail)")
+    st.markdown("### Feature Comparison (Pass vs Fail)")
     
     fig, axes = plt.subplots(n_rows, 2, figsize=(15, 5 * n_rows))
     axes = axes.flatten() if num_cols_to_plot > 1 else [axes]
@@ -742,18 +743,18 @@ elif page == "🔬 Data Science Analysis":
     st.pyplot(fig)
     plt.close()
 
-elif page == "🎯 Model Prediction":
-    st.markdown(f'<h1 class="main-header">🎯 Model Training & Prediction</h1>', unsafe_allow_html=True)
+elif page == "Model Prediction":
+    st.markdown(f'<h1 class="main-header">Model Training & Prediction</h1>', unsafe_allow_html=True)
     
     # Train models
     with st.spinner("Training models... Please wait."):
         X, y, df_processed, missing_info, missing_percent = preprocess_data(df)
         results, scaler, X_train, X_test, y_train, y_test = train_models(X, y)
     
-    st.success("✅ Models trained successfully!")
+    st.success("Models trained successfully!")
     
     # Model selection
-    st.markdown("### 🤖 Select Model for Prediction")
+    st.markdown("### Select Model for Prediction")
     model_choice = st.selectbox("Choose a model:", list(results.keys()))
     
     selected_model = results[model_choice]['model']
@@ -761,7 +762,7 @@ elif page == "🎯 Model Prediction":
     st.markdown("---")
     
     # Feature Importance
-    st.markdown("### 📊 Feature Importance Analysis")
+    st.markdown("### Feature Importance Analysis")
     
     if 'PCA' in model_choice:
         # PCA Analysis
@@ -924,7 +925,7 @@ elif page == "🎯 Model Prediction":
     st.markdown("---")
     
     # Make Predictions
-    st.markdown("### 🎯 Make Individual Predictions")
+    st.markdown("### Make Individual Predictions")
     
     st.markdown("""
     <div class="warning-box">
@@ -947,7 +948,7 @@ elif page == "🎯 Model Prediction":
                 mean_val = float(df[col].mean())
                 input_data[col] = st.slider(f"{col}", min_val, max_val, mean_val)
     
-    if st.button("🔮 Predict Result", type="primary"):
+    if st.button("Predict Result", type="primary"):
         # Prepare input
         input_df = pd.DataFrame([input_data])
         
@@ -983,7 +984,7 @@ elif page == "🎯 Model Prediction":
         result_color = "#28a745" if prediction == 1 else "#dc3545"
         
         st.markdown("---")
-        st.markdown("### 🎉 Prediction Result")
+        st.markdown("### Prediction Result")
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
@@ -996,7 +997,7 @@ elif page == "🎯 Model Prediction":
             """, unsafe_allow_html=True)
         
         # Probability breakdown
-        st.markdown("### 📊 Prediction Probabilities")
+        st.markdown("### Prediction Probabilities")
         prob_df = pd.DataFrame({
             'Outcome': ['Fail', 'Pass'],
             'Probability': [(1 - prediction_continuous) * 100, prediction_continuous * 100]
@@ -1025,18 +1026,18 @@ elif page == "🎯 Model Prediction":
         # Show model type
         st.info(f"**Model Used**: {model_choice} | **Threshold**: 0.5")
 
-elif page == "📈 Evaluation Metrics":
-    st.markdown(f'<h1 class="main-header">📈 Model Evaluation Metrics</h1>', unsafe_allow_html=True)
+elif page == "Evaluation Metrics":
+    st.markdown(f'<h1 class="main-header">Model Evaluation Metrics</h1>', unsafe_allow_html=True)
     
     # Train models
     with st.spinner("Calculating metrics... Please wait."):
         X, y, df_processed, missing_info, missing_percent = preprocess_data(df)
         results, scaler, X_train, X_test, y_train, y_test = train_models(X, y)
     
-    st.success("✅ Evaluation complete!")
+    st.success("Evaluation complete!")
     
     # Model Comparison
-    st.markdown("### 🏆 Model Performance Comparison")
+    st.markdown("### Model Performance Comparison")
     
     metrics_df = pd.DataFrame({
         'Model': list(results.keys()),
@@ -1120,7 +1121,7 @@ elif page == "📈 Evaluation Metrics":
     st.markdown("---")
     
     # Detailed metrics for each model
-    st.markdown("### 📊 Detailed Model Analysis")
+    st.markdown("### Detailed Model Analysis")
     
     selected_model_eval = st.selectbox("Select model for detailed analysis:", list(results.keys()))
     
@@ -1137,7 +1138,7 @@ elif page == "📈 Evaluation Metrics":
         st.metric("F1-Score", f"{model_results['f1']:.3f}")
     
     # Confusion Matrix
-    st.markdown("### 🎯 Confusion Matrix")
+    st.markdown("### Confusion Matrix")
     
     cm = model_results['confusion_matrix']
     
@@ -1157,7 +1158,7 @@ elif page == "📈 Evaluation Metrics":
     plt.close()
     
     # ROC Curve
-    st.markdown("### 📈 ROC Curve")
+    st.markdown("### ROC Curve")
     
     fpr, tpr, _ = roc_curve(model_results['y_test'], model_results['y_pred_proba'])
     roc_auc = auc(fpr, tpr)
@@ -1180,7 +1181,7 @@ elif page == "📈 Evaluation Metrics":
     plt.close()
     
     # Model Insights
-    st.markdown("### 💡 Key Insights")
+    st.markdown("### Key Insights")
     
     best_model = metrics_df.loc[metrics_df['Accuracy'].idxmax(), 'Model']
     best_accuracy = metrics_df['Accuracy'].max()
@@ -1220,7 +1221,7 @@ elif page == "📈 Evaluation Metrics":
     
     # Dimensionality Reduction Comparison
     st.markdown("---")
-    st.markdown("### 🔍 Dimensionality Reduction Analysis")
+    st.markdown("### Dimensionality Reduction Analysis")
     
     col1, col2 = st.columns(2)
     
@@ -1286,7 +1287,6 @@ elif page == "📈 Evaluation Metrics":
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #7f8c8d; padding: 2rem 0;">
-    <p>🎓 Student Performance Prediction System | Built with Streamlit & Scikit-learn</p>
-    <p>For educational purposes - Machine Learning Demo Application</p>
+    <p>Student Performance Prediction System | Built using Streamlit </p>
 </div>
 """, unsafe_allow_html=True)
