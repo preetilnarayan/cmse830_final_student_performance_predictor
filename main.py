@@ -3,12 +3,11 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.linear_model import LinearRegression
 from sklearn.decomposition import PCA, TruncatedSVD
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_curve, auc, mean_squared_error, r2_score, mean_absolute_error
 import seaborn as sns
 import matplotlib.pyplot as plt
-from io import BytesIO
 
 # Set matplotlib style
 plt.style.use('seaborn-v0_8-darkgrid')
@@ -401,8 +400,7 @@ if 'selected_dataset' not in st.session_state:
 
 # Sidebar
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/000000/student-center.png", width=80)
-    
+    st.image("https://img.icons8.com/fluency/96/000000/student-center.png", use_container_width=True)
     page = st.radio(
         "Select Section:",
         ["Home", "Product Overview", "Data Analysis", "Model Prediction", "Evaluation Metrics"],
