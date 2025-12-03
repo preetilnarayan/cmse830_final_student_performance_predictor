@@ -41,18 +41,21 @@ st.markdown("""
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
+        color: #000000;
     }
     .success-box {
         background-color: #d4edda;
         border-left: 5px solid #28a745;
         padding: 1rem;
         margin: 1rem 0;
+        color: #000000;
     }
     .warning-box {
         background-color: #fff3cd;
         border-left: 5px solid #ffc107;
         padding: 1rem;
         margin: 1rem 0;
+        color: #000000;
     }
     </style>
 """, unsafe_allow_html=True)
