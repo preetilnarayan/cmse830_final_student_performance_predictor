@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
+# import plotly.express as px
+# import plotly.graph_objects as go
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
@@ -480,9 +480,18 @@ elif page == "📊 Product Overview":
     
     # Class Distribution
     st.markdown("### 🎯 Target Variable Distribution")
-    fig = px.pie(df, names='result', title='Pass vs Fail Distribution',
-                 color='result', color_discrete_map={'Pass': '#28a745', 'Fail': '#dc3545'})
-    st.plotly_chart(fig, use_container_width=True)
+    fig, ax = plt.subplots()
+    df['result'].value_counts().plot(
+        kind='pie',
+        autopct='%1.1f%%',
+        colors=['#28a745', '#dc3545'],
+        startangle=90,
+        ax=ax
+    )
+    ax.set_ylabel('')
+    ax.set_title('Pass vs Fail Distribution')
+    st.pyplot(fig)
+
 
 elif page == "🔬 Data Science Analysis":
     st.markdown(f'<h1 class="main-header">🔬 Data Science Analysis: {dataset_name}</h1>', unsafe_allow_html=True)
@@ -505,10 +514,13 @@ elif page == "🔬 Data Science Analysis":
             st.dataframe(missing_df, use_container_width=True)
             
             # Visualize missing values
-            fig = px.bar(missing_df, x='Column', y='Missing %', 
-                        title='Missing Values by Column (%)',
-                        color='Missing %', color_continuous_scale='Reds')
-            st.plotly_chart(fig, use_container_width=True)
+            fig, ax = plt.subplots(figsize=(10, 5))
+            ax.bar(missing_df['Column'], missing_df['Missing %'], color='red')
+            ax.set_title('Missing Values by Column (%)')
+            ax.set_xlabel('Column')
+            ax.set_ylabel('Missing %')
+            plt.xticks(rotation=45, ha='right')
+            st.pyplot(fig)
         else:
             st.success("✅ No missing values detected!")
         
@@ -574,20 +586,18 @@ elif page == "🔬 Data Science Analysis":
     col1, col2 = st.columns(2)
     for idx, col in enumerate(numeric_cols):
         with col1 if idx % 2 == 0 else col2:
-            fig = px.histogram(df, x=col, color='result', 
-                             title=f'Distribution of {col}',
-                             color_discrete_map={'Pass': '#28a745', 'Fail': '#dc3545'},
-                             barmode='overlay', opacity=0.7)
-            st.plotly_chart(fig, use_container_width=True)
+            fig, ax = plt.subplots()
+            sns.histplot(data=df, x=col, hue='result', kde=False, ax=ax)
+            ax.set_title(f'Distribution of {col}')
+            st.pyplot(fig)
     
     # Box plots
     st.markdown("### 📦 Feature Comparison (Pass vs Fail)")
-    
     for col in numeric_cols:
-        fig = px.box(df, x='result', y=col, color='result',
-                    title=f'{col} by Result',
-                    color_discrete_map={'Pass': '#28a745', 'Fail': '#dc3545'})
-        st.plotly_chart(fig, use_container_width=True)
+        fig, ax = plt.subplots()
+        sns.boxplot(data=df, x='result', y=col, ax=ax)
+        ax.set_title(f'{col} by Result')
+        st.pyplot(fig)
 
 elif page == "🎯 Model Prediction":
     st.markdown(f'<h1 class="main-header">🎯 Model Training & Prediction</h1>', unsafe_allow_html=True)
