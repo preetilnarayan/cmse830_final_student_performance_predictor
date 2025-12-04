@@ -636,7 +636,7 @@ elif page == "Data Analysis":
         """)
         
         # Show data AFTER cleaning
-        st.markdown("####Data After Cleaning")
+        st.markdown("#### Data After Cleaning")
         df_display = df.copy()
         
         # Apply same cleaning for display
