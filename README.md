@@ -369,6 +369,15 @@ This project demonstrates:
 - Multiple evaluation metrics  
 - Documentation and code organization  
 
+### Future Enhancements
+- Add more ML models (Random Forest, XGBoost)
+- Implement cross-validation
+- Add feature selection algorithms
+- Create API endpoint for predictions
+- Add user authentication
+- Support for custom dataset uploads
+- Export detailed PDF reports
+- Add temporal analysis (tracking over time)
 
 ## License
 This project is licensed under the MIT License based libraries & softwares
@@ -408,13 +417,3 @@ In A. Brito and J. Teixeira Eds., Proceedings of 5th FUture BUsiness TEChnology 
 
 ### Dataset URL
 - [UCI Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance)
-
-### Future Enhancements
-- [ ] Add more ML models (Random Forest, XGBoost)
-- [ ] Implement cross-validation
-- [ ] Add feature selection algorithms
-- [ ] Create API endpoint for predictions
-- [ ] Add user authentication
-- [ ] Support for custom dataset uploads
-- [ ] Export detailed PDF reports
-- [ ] Add temporal analysis (tracking over time)
