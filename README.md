@@ -397,9 +397,6 @@ SOFTWARE.
 ## Acknowledgments
 - **UCI Machine Learning Repository** for providing the Student Performance datasets
 - **P. Cortez and A. Silva** - Original dataset creators (2008)
-- **Streamlit Team** for the excellent web framework
-- **Scikit-learn Contributors** for robust ML libraries
-- **Educational Data Science Community** for inspiration
 
 ## References
 ### Dataset Citation
