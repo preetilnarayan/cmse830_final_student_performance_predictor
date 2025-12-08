@@ -1,144 +1,196 @@
 # Student Performance Prediction System
 
-An application that predicts student pass/fail outcomes using real-world datasets from the UCI Machine Learning Repository. This project implements Linear Regression, PCA, and SVD for student performance analysis with extensive data visualization and model evaluation.
+An interactive Streamlit application that predicts student pass/fail outcomes using real-world datasets from the UCI Student Performance dataset. [web:2]  
+The system implements Logistic Regression, Random Forest, Gradient Boosting, PCA + Logistic Regression, and SVD + Logistic Regression, with extensive data exploration, preprocessing transparency, and model evaluation. [web:71][web:79]
+
+---
+
+## Project Structure
+
+```
+├── app.py
+├── page_modules/
+│   ├── about_datasets.py        # Dataset descriptions and basic stats
+│   ├── cleaning.py              # Data cleaning and preprocessing overview
+│   ├── documentation.py         # In-app project documentation
+│   ├── eda.py                   # Exploratory data analysis (EDA)
+│   ├── home.py                  # Landing page and guided workflow
+│   ├── missingness.py           # Missing data patterns and handling
+│   ├── prediction_models.py     # Model training results and metrics
+│   └── student_predictor.py     # Individual student prediction interface
+├── README.md
+├── requirements.txt
+└── utils/
+    ├── data_loader.py           # Data loading utilities
+    ├── models.py                # Model configuration and training logic
+    ├── preprocessing.py         # Imputation, encoding, scaling
+    └── styles.py                # Custom CSS and visual styling
+```
+
+---
 
 ## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Datasets](#datasets)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Machine Learning Models](#machine-learning-models)
-- [Technical Implementation](#technical-implementation)
-- [License](#license)
+
+- [Overview](#overview)  
+- [Features](#features)  
+- [Datasets](#datasets)  
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [Machine Learning Models](#machine-learning-models)  
+- [Evaluation Metrics](#evaluation-metrics)  
+- [Technical Implementation](#technical-implementation)  
+- [Educational Value](#educational-value)  
+- [Future Enhancements](#future-enhancements)  
+- [License](#license)  
+- [Acknowledgments](#acknowledgments)  
+- [References](#references)  
+
+---
 
 ## Overview
 
-This application addresses a critical challenge in education: **identifying at-risk students early** to provide timely interventions and improve overall student success rates. Using machine learning techniques, the system analyzes various student performance metrics to forecast pass/fail outcomes with high accuracy.
+This application addresses a critical challenge in education: **identifying at-risk students early** so that institutions can provide timely interventions and improve overall student success rates. [web:5]  
+Using machine learning techniques, the system analyzes various performance, behavioral, and contextual metrics to forecast pass/fail outcomes.
 
 ### Problem Statement
-Educational institutions need proactive tools to identify struggling students before it's too late. Traditional reactive approaches often miss early warning signs, leading to higher failure rates and lower student retention.
+
+Educational institutions need proactive tools to detect struggling students before failure occurs.  
+Traditional reactive approaches often miss early warning signs, leading to higher failure rates and lower student retention.
 
 ### Solution
-A machine learning-based prediction system that:
-- Analyzes multiple student performance indicators
-- Provides real-time predictions with confidence scores
-- Offers interpretable results for educators
-- Visualizes key patterns in student data
+
+A machine learning–based prediction system that:
+
+- Analyzes multiple student performance indicators.  
+- Provides real-time pass/fail predictions with associated scores.  
+- Offers interpretable outputs for educators, counselors, and researchers.  
+- Visualizes key patterns in student data, preprocessing steps, and model behavior.  
 
 ### Target Users
-- School administrators
-- Academic counselors
-- Educators and teachers
-- Educational data analysts
+
+- **School administrators** – for resource allocation and planning.  
+- **Teachers & educators** – to identify struggling students early.  
+- **Academic counselors** – to design targeted intervention plans.  
+- **Education researchers** – to analyze drivers of student success at scale. [web:5]
+
+---
 
 ## Features
 
 ### Core Functionality
-- **3 Real-World Datasets**: UCI Machine Learning Repository datasets with 395-649 samples each
-- **Missing Value Handling**: Comprehensive data cleaning with median/mode imputation
-- **Multiple ML Models**: Linear Regression, PCA + Linear Regression, SVD + Linear Regression
-- **Interactive Predictions**: Real-time student outcome predictions with confidence scores
-- **Advanced Visualizations**: 15+ matplotlib/seaborn charts for data analysis
+
+- End-to-end workflow across **About the Datasets**, **EDA**, **Missingness**, **Cleaning**, **Prediction Models**, **Dataset & Model Prediction**, and **Student Predictor** pages. [web:42][web:75]  
+- Multiple model families: Logistic Regression, Random Forest, Gradient Boosting, PCA + Logistic Regression, and SVD + Logistic Regression. [web:71][web:79]  
+- Dedicated pages for cohort-level analysis (**Dataset & Model Prediction**) and individual “what-if” analysis (**Student Predictor**).  
+- Consistent train/test split, stratification by target, and feature scaling to evaluate all models fairly. [web:56]  
+- Rich outputs including metrics, confusion matrices, feature importance, and dimensionality reduction summaries. [web:54][web:60]  
 
 ### Analysis Capabilities
-- Feature correlation analysis
-- Distribution analysis by outcome (Pass/Fail)
-- Dimensionality reduction visualization
-- Feature importance/coefficient analysis
-- Model performance comparison
-- ROC curves and confusion matrices
+
+- **Dataset-level exploration** via **About the Datasets** and **EDA**: distributions, class balance, and correlations between academic and behavioral features. [web:2][web:4]  
+- **Missing data diagnostics** on the **Missingness** page: where values are missing and how this may affect models. [web:62]  
+- **Preprocessing inspection** on **Cleaning**: imputation, encoding, and scaling strategies used prior to training.  
+- **Model performance comparison**: accuracy, precision, recall, F1-score, confusion matrices, and classification reports across all classifiers. [web:54][web:56]  
+- **Model behavior insights**: feature importance for tree-based models and explained variance / components for PCA and SVD pipelines. [web:79][web:80]  
 
 ### User Experience
-- Clean, intuitive interface with sidebar navigation
-- 5 main sections: Home, Product Overview, Data Science Analysis, Model Prediction, Evaluation Metrics
-- Professional color scheme (green for pass, red for fail)
-- Responsive design with clear instructions
-- Download dataset functionality
+
+- Clean, structured interface with sidebar navigation across **Home**, **Dataset & Model Prediction**, **About the Datasets**, **EDA**, **Cleaning**, **Missingness**, **Prediction Models**, **Student Predictor**, and **Documentation**. [web:42][web:66]  
+- Page-specific guidance so users know how to move from data understanding, through preprocessing and modeling, to individual predictions. [web:61]  
+- Consistent visual styling for tables, plots, and metrics to clearly separate analysis views and prediction outputs. [web:59]  
+- Workflow designed for both educators and data practitioners, supporting risk identification, analysis, and reporting. [web:67][web:68]  
+
+---
 
 ## Datasets
 
-The application uses three real-world datasets from the UCI Machine Learning Repository:
+The application uses three derived datasets based on the UCI **Student Performance** data (Math and Portuguese tracks). [web:2][web:4]
 
 ### Dataset 1: UCI Mathematics Performance
-**Source**: UCI Student Performance Dataset (Math)  
-**Samples**: 395 students  
-**Features**:
-- `age`: Student age (15-22 years)
-- `study_time_weekly`: Weekly study time (1-4 scale)
-- `past_failures`: Number of past class failures (0-4)
-- `absences`: Number of school absences (0-93)
-- `period1_grade`: First period grade (0-20)
-- `period2_grade`: Second period grade (0-20)
-- `final_grade`: Final grade (0-20)
-- `result`: Pass (≥10) or Fail (<10)
 
-**Missing Values**: 10-15% in study_time, absences, period1_grade
+**Source**: UCI Student Performance Dataset (Math)  
+**Samples**: 395 students [web:2]  
+
+Example features:
+
+- `age`: Student age (15–22 years).  
+- `study_time_weekly`: Weekly study time (1–4 scale).  
+- `past_failures`: Number of past class failures (0–4).  
+- `absences`: Number of school absences.  
+- `period1_grade`, `period2_grade`, `final_grade`: Grades 0–20.  
+- `result`: Binary pass/fail derived from `final_grade`.  
+
+Includes moderate missing values in selected numeric features.
 
 ### Dataset 2: UCI Portuguese Performance
-**Source**: UCI Student Performance Dataset (Portuguese)  
-**Samples**: 649 students  
-**Features**:
-- `age`: Student age (15-22 years)
-- `mother_education`: Mother's education level (0-4 scale)
-- `father_education`: Father's education level (0-4 scale)
-- `travel_time`: Home to school travel time (1-4 scale)
-- `family_relationship`: Family relationship quality (1-5 scale)
-- `social_outings`: Going out with friends (1-5 scale)
-- `health_status`: Current health status (1-5 scale)
-- `absences`: Number of school absences (0-75)
-- `final_grade`: Final grade (0-20)
-- `result`: Pass (≥10) or Fail (<10)
 
-**Missing Values**: 8-12% in mother_education, health_status, social_outings, travel_time
+**Source**: UCI Student Performance Dataset (Portuguese)  
+**Samples**: 649 students. [web:2]  
+
+Example features:
+
+- `age`: Student age (15–22 years).  
+- `mother_education`, `father_education`: Parental education levels.  
+- `travel_time`: Home-to-school travel time (1–4 scale).  
+- `family_relationship`: Family relationship quality.  
+- `social_outings`, `health_status`: Social and health indicators.  
+- `absences`, `final_grade`, and binary `result`.  
+
+Contains missing values in several socio-demographic attributes.
 
 ### Dataset 3: Comprehensive Academic Profile
-**Source**: UCI ML Repository (Combined Math + Portuguese)  
-**Samples**: 500 students  
-**Features**:
-- `age`: Student age (15-22 years)
-- `study_time_weekly`: Weekly study time (1-4 scale)
-- `past_failures`: Number of past class failures (0-4)
-- `school_support`: Extra educational support (0/1)
-- `family_support`: Family educational support (0/1)
-- `paid_classes`: Extra paid classes (0/1)
-- `extracurricular`: Extra-curricular activities (0/1)
-- `higher_ed_aspiration`: Wants higher education (0/1)
-- `internet_access`: Internet access at home (0/1)
-- `final_grade`: Final grade (0-20)
-- `result`: Pass (≥10) or Fail (<10)
 
-**Missing Values**: 15-20% in paid_classes, extracurricular, study_time_weekly; 10% in school_support, internet_access
+**Source**: Combined data constructed from Math and Portuguese tracks. [web:3][web:14]  
+**Samples**: ~500 students.  
+
+Example features:
+
+- `study_time_weekly`, `past_failures`, `absences`.  
+- Academic support indicators (school and family support, paid classes, extracurriculars).  
+- Higher education aspiration and home internet access.  
+- `final_grade` and derived pass/fail `result`.  
+
+Includes missing values in support- and behavior-related features.
+
+---
 
 ## Installation
 
 ### Prerequisites
-- Python 3.8 or higher
-- pip package manager
+
+- Python 3.8 or higher.  
+- `pip` package manager.  
 
 ### Step 1: Clone the Repository
-```bash
+
+```
 git clone https://github.com/yourusername/student-performance-predictor.git
 cd student-performance-predictor
 ```
 
 ### Step 2: Create Virtual Environment (Recommended)
 
+Create and activate a virtual environment using `venv`, `conda`, or another tool of your choice.
+
 ### Step 3: Install Dependencies
-```bash
+
+```
 pip install -r requirements.txt
 ```
 
 ### Step 4: Run the Application
-```bash
+
+```
 streamlit run app.py
 ```
 
-The application will open automatically in your default browser at `http://localhost:8501`
+By default, Streamlit runs at `http://localhost:8501`. [web:42]
+
+---
 
 ## Requirements
 
-Create a `requirements.txt` file with the following dependencies:
+`requirements.txt` includes at least:
 
 ```
 streamlit>=1.28.0
@@ -149,271 +201,194 @@ matplotlib>=3.7.0
 seaborn>=0.12.0
 ```
 
+---
+
 ## Usage
 
 ### Quick Start Guide
 
 1. **Launch the Application**
-   ```bash
+
+   ```
    streamlit run app.py
    ```
 
-2. **Select a Dataset**
-   - Use the sidebar dropdown to choose from 3 datasets
-   - Each dataset loads automatically from UCI repository
+2. **Navigate Through Pages**
 
-3. **Navigate Through Sections**
-   - **Home**: Overview and quick start
-   - **Product Overview**: Explore dataset statistics and distributions
-   - **Data Science Analysis**: View correlations, missing values, and feature analysis
-   - **Model Prediction**: Make individual student predictions
-   - **Evaluation Metrics**: Compare model performance
+   - **Home** – Overview, goals, and recommended workflow.  
+   - **About the Datasets** – Dataset descriptions, feature summaries, and basic stats.  
+   - **EDA** – Distributions, correlations, and class balance plots.  
+   - **Missingness** – Missing value patterns and summaries.  
+   - **Cleaning** – Description of preprocessing, imputation, and scaling steps.  
+   - **Prediction Models** – Trained models, metrics, feature importance, and dimensionality reduction.  
+   - **Dataset & Model Prediction** – Select dataset and model, explore predictions at a cohort level.  
+   - **Student Predictor** – Make individual student predictions with interactive inputs.  
+   - **Documentation** – In-app documentation, methodology, and references.  
 
-4. **Make Predictions**
-   - Go to "Model Prediction" section
-   - Select a model (Linear Regression, PCA, or SVD)
-   - Adjust sliders/dropdowns for student features
-   - Click "Predict Result" to get pass/fail prediction
+3. **Make Predictions**
 
-5. **Analyze Results**
-   - View confidence scores and probabilities
-   - Examine feature importance/coefficients
-   - Compare model performance metrics
+   - Open **Dataset & Model Prediction** or **Student Predictor**.  
+   - Select a dataset and model (Logistic Regression, Random Forest, Gradient Boosting, PCA + Logistic Regression, SVD + Logistic Regression). [web:79]  
+   - Adjust sliders/dropdowns for student features.  
+   - Click **Predict Result** to obtain pass/fail prediction and scores.  
+
+4. **Analyze Results**
+
+   - Review accuracy, precision, recall, and F1-score for each model. [web:54][web:56]  
+   - Inspect confusion matrices and classification reports.  
+   - Examine feature importance for tree-based models and explained variance for PCA/SVD pipelines.  
 
 ### Example Use Cases
 
 #### For Educators
-```
-Goal: Identify at-risk students
-1. Navigate to "Product Overview"
-2. Review class distribution and statistics
-3. Go to "Model Prediction"
-4. Input student's current metrics
-5. Review prediction and confidence score
-6. Take proactive intervention if needed
-```
+
+Goal: Identify at-risk students and intervene early.
+
+1. Visit **About the Datasets** and **EDA** to understand current cohorts.  
+2. Use **Prediction Models** to see which models perform best.  
+3. Go to **Student Predictor**, enter a student’s current metrics, and review the pass/fail prediction and scores.  
+4. Use these insights to plan targeted support or adjustments in teaching.
 
 #### For Data Scientists
-```
-Goal: Understand model performance
-1. Select dataset from sidebar
-2. Go to "Data Science Analysis"
-3. Review correlation matrix and distributions
-4. Navigate to "Evaluation Metrics"
-5. Compare accuracy, precision, recall, F1-score
-6. Analyze ROC curves and confusion matrices
-```
+
+Goal: Understand model performance and behavior.
+
+1. Select a dataset in **Dataset & Model Prediction**.  
+2. Explore **EDA**, **Missingness**, and **Cleaning** to understand data quality and preprocessing.  
+3. Use **Prediction Models** to compare Logistic Regression, Random Forest, Gradient Boosting, PCA + LR, and SVD + LR. [web:71][web:79]  
+4. Analyze metrics, confusion matrices, feature importance, and dimensionality reduction outputs.
+
+---
 
 ## Machine Learning Models
 
-### 1. Linear Regression
-**Purpose**: Direct relationship modeling between features and outcome
+### Logistic Regression
 
-**Implementation**:
-- Treats pass/fail as continuous problem (0/1)
-- Uses 0.5 threshold for binary classification
-- Provides interpretable coefficients
+Models the probability of pass/fail as a function of student features using a linear decision boundary in feature space. [web:56]  
+Serves as a fast, interpretable baseline; coefficients indicate how each feature affects the odds of passing.
 
-**Advantages**:
-- Simple and interpretable
-- Fast training and prediction
-- Shows direct feature impact
+### Random Forest
 
-**Metrics**:
-- Classification: Accuracy, Precision, Recall, F1
-- Regression: MSE, MAE, R²
+An ensemble of decision trees that aggregates many randomized trees to produce robust predictions. [web:79][web:80]  
+Captures non-linear relationships and interactions between features; exposes feature importance scores.
 
-### 2. PCA + Linear Regression
-**Purpose**: Dimensionality reduction using Principal Component Analysis
+### Gradient Boosting
 
-**Implementation**:
-- Reduces features to 5 principal components
-- Captures maximum variance in data
-- Trains Linear Regression on transformed features
+Sequentially builds shallow trees where each tree corrects errors made by previous ones. [web:79][web:80]  
+Often achieves strong performance on structured data and can model subtle patterns in student outcomes. [web:71]
 
-**Advantages**:
-- Reduces multicollinearity
-- Handles high-dimensional data
-- Removes noise and redundancy
+### PCA + Logistic Regression
 
-**Key Outputs**:
-- Explained variance ratio per component
-- Component loadings (feature contributions)
-- Cumulative variance explained
+Applies Principal Component Analysis (PCA) to reduce the feature space to a small number of orthogonal components. [web:62]  
+Trains Logistic Regression on these components, reducing multicollinearity and noise while keeping the model relatively interpretable.
 
-### 3. SVD + Linear Regression
-**Purpose**: Matrix factorization for feature extraction
+### SVD + Logistic Regression
 
-**Implementation**:
-- Applies Truncated SVD (5 components)
-- Decomposes feature matrix
-- Trains Linear Regression on singular vectors
+Uses Truncated Singular Value Decomposition (SVD) to project data into a low-dimensional latent space. [web:79]  
+Logistic Regression is trained on latent features, which can be effective for high-dimensional or sparse inputs and provides explained variance information.
 
-**Advantages**:
-- Works with sparse data
-- Optimal low-rank approximation
-- Identifies latent patterns
-
-**Key Outputs**:
-- Singular values
-- Explained variance per component
-- Feature loadings in latent space
+---
 
 ## Evaluation Metrics
+
+The app focuses on classification metrics for pass/fail prediction.
+
 ### Classification Metrics
 
-| Metric | Description | Formula |
-|--------|-------------|---------|
-| **Accuracy** | Overall correctness | (TP + TN) / (TP + TN + FP + FN) |
-| **Precision** | Positive prediction accuracy | TP / (TP + FP) |
-| **Recall** | True positive rate | TP / (TP + FN) |
-| **F1-Score** | Harmonic mean of precision/recall | 2 × (Precision × Recall) / (Precision + Recall) |
+- **Accuracy** – Proportion of correctly classified students. [web:54]  
+- **Precision** – Among students predicted to pass, the fraction who actually pass. [web:54]  
+- **Recall** – Among students who actually pass, the fraction correctly identified. [web:54]  
+- **F1-Score** – Harmonic mean of precision and recall, balancing both. [web:55]  
 
-### Regression Metrics
+The app also computes:
 
-| Metric | Description | Interpretation |
-|--------|-------------|----------------|
-| **MSE** | Mean Squared Error | Lower is better |
-| **MAE** | Mean Absolute Error | Lower is better |
-| **R² Score** | Coefficient of determination | Higher is better (0-1) |
+- **Confusion Matrix** – Counts of true positives, true negatives, false positives, and false negatives. [web:58]  
+- **Classification Report** – Class-wise precision, recall, F1-score, and support for pass and fail classes. [web:56]  
 
-### Visualizations Included
+### Model-Specific Insights
 
-1. **Confusion Matrix**: True/False Positives and Negatives
-2. **ROC Curve**: True Positive Rate vs False Positive Rate
-3. **Feature Importance**: Coefficient/loading visualizations
-4. **Variance Explained**: PCA/SVD component analysis
-5. **Distribution Plots**: Feature distributions by outcome
-6. **Correlation Heatmap**: Feature relationships
+- **Random Forest** and **Gradient Boosting**: feature importance scores showing which variables drive predictions. [web:79][web:80]  
+- **PCA + Logistic Regression** and **SVD + Logistic Regression**: number of components and explained variance ratios, indicating how much information is preserved. [web:62]  
+
+---
 
 ## Technical Implementation
+
 ### Data Processing Pipeline
 
-```python
-1. Data Loading
-   ├── Load from UCI repository URLs
-   ├── Fallback to synthetic data if unavailable
-   └── Cache with @st.cache_data
-
-2. Missing Value Handling
-   ├── Detection: Identify columns with missing values
-   ├── Imputation:
-   │   ├── Numeric: Median (robust to outliers)
-   │   └── Categorical: Mode (most frequent)
-   └── Validation: Verify no missing values remain
-
-3. Feature Engineering
-   ├── Label Encoding: Categorical -> Numeric
-   ├── Feature Scaling: StandardScaler
-   └── Target Creation: Grade -> Pass/Fail (threshold: 10)
-
-4. Train-Test Split
-   ├── 80% Training
-   ├── 20% Testing
-   └── Stratified by target (maintain class balance)
-```
+1. **Data Loading** – Load datasets from local files or UCI-derived sources. [web:2][web:3]  
+2. **Missing Value Handling** – Detect missing values and apply median/mode or similar strategies for imputation. [web:62]  
+3. **Feature Engineering** – Encode categorical variables, scale numeric features (e.g., StandardScaler), and derive a binary pass/fail target. [web:56]  
+4. **Train–Test Split** – Split into training and test sets with stratification to preserve class balance. [web:56]  
 
 ### Model Training Pipeline
 
-```python
-1. Scale Features
-   └── StandardScaler: Mean=0, Std=1
-
-2. Train Models
-   ├── Linear Regression
-   │   ├── Fit on scaled training data
-   │   └── Threshold predictions at 0.5
-   │
-   ├── PCA + Linear Regression
-   │   ├── PCA: Extract 5 components
-   │   ├── Fit Linear Regression on components
-   │   └── Store explained variance
-   │
-   └── SVD + Linear Regression
-       ├── TruncatedSVD: Extract 5 components
-       ├── Fit Linear Regression on components
-       └── Store explained variance
-
-3. Evaluate
-   ├── Classification metrics
-   ├── Regression metrics
-   └── Generate visualizations
-```
+1. **Scaling** – Standardize features before model training.  
+2. **Base Models** – Train Logistic Regression, Random Forest, and Gradient Boosting on scaled data with shared splits. [web:71][web:79]  
+3. **Dimensionality Reduction Models** – Apply PCA and SVD to obtain a reduced feature representation and train Logistic Regression on each. [web:62]  
+4. **Evaluation** – Compute metrics, confusion matrices, classification reports, and any model-specific diagnostics. [web:54][web:56]  
 
 ### Key Technologies
 
-- **Frontend**: Streamlit (interactive web interface)
-- **Data Processing**: Pandas, NumPy
-- **Machine Learning**: Scikit-learn
-- **Visualization**: Matplotlib, Seaborn
-- **Data Source**: UCI Machine Learning Repository
+- **Frontend**: Streamlit. [web:66]  
+- **Data Processing**: pandas, NumPy.  
+- **Machine Learning**: scikit-learn (Logistic Regression, RandomForest, GradientBoosting, PCA, TruncatedSVD, metrics). [web:56][web:79]  
+- **Visualization**: Matplotlib, Seaborn.  
+- **Data Source**: UCI Machine Learning Repository (Student Performance dataset). [web:2][web:4]  
+
+---
 
 ## Educational Value
 
-This project demonstrates:
-
 ### Technical Skills
-- Data preprocessing and cleaning  
-- Handling missing values with multiple strategies  
-- Feature engineering and encoding  
-- Dimensionality reduction (PCA, SVD)  
-- Regression-to-classification conversion  
-- Model evaluation and comparison  
-- Interactive web application development  
+
+- Data preprocessing and cleaning on real educational datasets. [web:5]  
+- Handling missing values, encoding, and scaling. [web:62]  
+- Applying ensemble methods and dimensionality reduction in classification tasks. [web:71][web:79]  
+- Building and deploying a multipage Streamlit data app. [web:42][web:75]  
 
 ### Data Science Best Practices
-- Exploratory Data Analysis (EDA)  
-- Data visualization for insights  
-- Model interpretability  
-- Cross-validation and train-test split  
-- Multiple evaluation metrics  
-- Documentation and code organization  
 
-### Future Enhancements
-- Add more ML models (Random Forest, XGBoost)
-- Implement cross-validation
-- Add feature selection algorithms
-- Create API endpoint for predictions
-- Add user authentication
-- Support for custom dataset uploads
-- Export detailed PDF reports
-- Add temporal analysis (tracking over time)
+- Exploratory data analysis (EDA) and visualization for insight. [web:59]  
+- Model interpretability via feature importance and component analysis. [web:79][web:80]  
+- Use of multiple evaluation metrics and clear documentation of the pipeline. [web:56][web:62]  
+
+---
+
+## Future Enhancements
+
+- Add additional models (e.g., XGBoost, calibrated classifiers). [web:74][web:78]  
+- Implement cross-validation and hyperparameter optimization. [web:56]  
+- Add feature selection and fairness/robustness analysis. [web:62]  
+- Provide an API endpoint for batch predictions.  
+- Support custom dataset uploads.  
+- Export detailed PDF/HTML reports.  
+- Add temporal tracking of cohorts over multiple terms.  
+
+---
 
 ## License
-This project is licensed under the MIT License based libraries & softwares
-```
-MIT License
-Copyright (c) 2025 Student Performance Predictor
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This project is released under an MIT-style open-source license. [web:20]  
+Users may use, modify, and redistribute the software provided that the required copyright
+notice and license terms are included in derivative works.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+---
 
 ## Acknowledgments
-- **UCI Machine Learning Repository** for providing the Student Performance datasets
-- **P. Cortez and A. Silva** - Original dataset creators (2008)
+
+- **UCI Machine Learning Repository** for providing the Student Performance dataset. [web:2][web:4]  
+- **P. Cortez and A. Silva** – Original dataset creators (2008). [web:2][web:4]  
+
+---
 
 ## References
+
 ### Dataset Citation
-```
-P. Cortez and A. Silva. Using Data Mining to Predict Secondary School Student Performance. 
-In A. Brito and J. Teixeira Eds., Proceedings of 5th FUture BUsiness TEChnology Conference 
-(FUBUTEC 2008) pp. 5-12, Porto, Portugal, April, 2008, EUROSIS, ISBN 978-9077381-39-7.
-```
+
+Cortez, P., & Silva, A. (2008). *Using Data Mining to Predict Secondary School Student Performance.*  
+In A. Brito & J. Teixeira (Eds.), **Proceedings of 5th FUture BUsiness TEChnology Conference (FUBUTEC 2008)**, Porto, Portugal, EUROSIS. [web:2][web:4]
 
 ### Dataset URL
-- [UCI Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance)
+
+- UCI Student Performance Dataset: https://archive.ics.uci.edu/dataset/320/student+performance [web:2]
