@@ -22,10 +22,10 @@ The system implements Logistic Regression, Random Forest, Gradient Boosting, PCA
 ├── README.md
 ├── requirements.txt
 └── utils/
-├── data_loader.py           # Data loading utilities
-├── models.py                # Model configuration and training logic
-├── preprocessing.py         # Imputation, encoding, scaling
-└── styles.py                # Custom CSS and visual styling
+    ├── data_loader.py           # Data loading utilities
+    ├── models.py                # Model configuration and training logic
+    ├── preprocessing.py         # Imputation, encoding, scaling
+    └── styles.py                # Custom CSS and visual styling
 
 ```
 
